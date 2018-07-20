@@ -3,54 +3,54 @@
     <Layout>
       <Header>
         <Menu mode="horizontal" theme="dark" active-name="1">
-          <div class="layout-logo"></div>
           <div class="layout-nav">
             <MenuItem name="1">
-              <Icon type="ios-navigate"></Icon>
+              <Icon type="ios-navigate"  @click="pageChange(mainPage)"></Icon>
               首页
             </MenuItem>
             <MenuItem name="2">
               <Icon type="ios-keypad"></Icon>
-              分类
+              管理
             </MenuItem>
             <MenuItem name="3">
               <Icon type="ios-analytics"></Icon>
-              管理
+              历史
             </MenuItem>
             <MenuItem name="4">
               <Icon type="ios-paper"></Icon>
-              明细
+              消息
             </MenuItem>
           </div>
         </Menu>
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+          <!-- 这里的active-name属性就决定了哪一个菜单一开始就被选中 -->
+          <Menu active-name="1_1" theme="light" width="auto" :open-names="['1']">
             <Submenu name="1">
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
                 目录1
               </template>
-              <MenuItem name="1-1" @click="jump11">1-1</MenuItem>
-              <MenuItem name="1-2">1-2</MenuItem>
-              <MenuItem name="1-3">1-3</MenuItem>
+              <MenuItem name="1_1" @click="pageChange(page1_1)">1-1</MenuItem>
+              <MenuItem name="1_2">1-2</MenuItem>
+              <MenuItem name="1_3">1-3</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
                 <Icon type="ios-keypad"></Icon>
                 目录2
               </template>
-              <MenuItem name="2-1">2-1</MenuItem>
-              <MenuItem name="2-2">2-2</MenuItem>
+              <MenuItem name="2_1">2-1</MenuItem>
+              <MenuItem name="2_2">2-2</MenuItem>
             </Submenu>
             <Submenu name="3">
               <template slot="title">
                 <Icon type="ios-analytics"></Icon>
                 目录3
               </template>
-              <MenuItem name="3-1">3-1</MenuItem>
-              <MenuItem name="3-2">3-2</MenuItem>
+              <MenuItem name="3_1">3-1</MenuItem>
+              <MenuItem name="3_2">3-2</MenuItem>
             </Submenu>
           </Menu>
         </Sider>
@@ -60,8 +60,8 @@
             <BreadcrumbItem>目录1</BreadcrumbItem>
             <BreadcrumbItem>1-1</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '24px', minHeight: '500px', background: '#fff'}">
-            <MainPage></MainPage>
+          <Content :is="currentView" :style="{padding: '24px', minHeight: '500px', background: '#fff'}">
+            <!--<MainPage></MainPage>-->
           </Content>
         </Layout>
       </Layout>
@@ -71,13 +71,24 @@
 
 <script>
   import MainPage from '@/pages/mainPage';
+  import Page1_1 from '@/pages/page1_1';
   export default {
     components: {
-      MainPage
+      MainPage,
+      Page1_1
+    },
+    data(){
+      return{
+        mainPage:'MainPage',
+        page1_1:'Page1_1',
+        //page1_2:'page1_2',
+        currentView:'mainPage',
+      }
     },
     methods:{
-      jump11:function(){
-        console.log(this);
+      pageChange(pageName){
+        console.log(11)
+        this.currentView = pageName;
       }
     }
   }
@@ -89,38 +100,7 @@
     border: 1px solid #d7dde4;
     background: #f5f7f9;
     position: relative;
-  }
-  .layout-breadcrumb{
-    padding: 10px 15px 0;
-  }
-  .layout-content{
-    min-height: 200px;
-    margin: 15px;
-    overflow: hidden;
-    background: #fff;
     border-radius: 4px;
-  }
-  .layout-content-main{
-    padding: 10px;
-  }
-  .layout-copy{
-    text-align: center;
-    padding: 10px 0 20px;
-    color: #9ea7b4;
-  }
-  .layout-menu-left{
-    background: #464c5b;
-  }
-  .layout-header{
-    height: 60px;
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  }
-  .layout-logo-left{
-    width: 90%;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    margin: 15px auto;
+    overflow: hidden;
   }
 </style>

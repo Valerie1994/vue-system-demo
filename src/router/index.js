@@ -4,10 +4,10 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import HelloWorld from '@/components/HelloWorld'
 import MainPage from '@/pages/mainPage'
+import Page1_1 from '@/pages/page1_1'
 
 Vue.use(Router)
 Vue.use(iView)
-Vue.use(MainPage)
 
 export default new Router({
   routes: [
@@ -20,6 +20,11 @@ export default new Router({
       path: '/mainPage',
       name: 'mainPage',
       component: MainPage
+    },
+    {
+      path: '/page1_1',
+      name: 'page1_1',
+      component: Page1_1
     }
   ]
 })
