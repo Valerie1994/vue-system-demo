@@ -5,6 +5,7 @@ import 'iview/dist/styles/iview.css';
 import HelloWorld from '@/components/HelloWorld'
 import MainPage from '@/pages/mainPage'
 import Page1_1 from '@/pages/page1_1'
+import Page1_3 from '@/pages/page1_3'
 
 Vue.use(Router)
 Vue.use(iView)
@@ -25,6 +26,11 @@ export default new Router({
       path: '/page1_1',
       name: 'page1_1',
       component: Page1_1
-    }
+    },
+    {
+      path: '/page1_3',
+      name: 'page1_3',
+      component: Page1_3
+    },
   ]
 })

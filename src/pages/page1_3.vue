@@ -1,6 +1,7 @@
 <template>
   <div>
-    <table border="1" width="100%" cellspacing="0">
+    <Table :columns="theadColumns" :data="projectItems"></Table>
+    <!--<table border="1" width="100%" cellspacing="0">
       <thead>
         <tr>
           <th>项目模块</th>
@@ -12,22 +13,16 @@
       <tbody>
       <tr>
         <td>环境准备</td>
-        <td>2018-06-06</td>
-        <td>2018-06-08</td>
+        <td>2020-06-06</td>
+        <td>2020-06-08</td>
         <td>
-          <a style="color: #495060"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
+          <Tooltip content="修改" placement="top">
+            <a style="color: #495060" @click="itemModal = true"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
+          </Tooltip>
           &nbsp;&nbsp;
-          <a style="color: #495060"><Icon type="ios-trash-outline" size="20"></Icon></a>
-        </td>
-      </tr>
-      <tr>
-        <td>开发培训</td>
-        <td>2018-06-06</td>
-        <td>2018-06-08</td>
-        <td>
-          <a style="color: #495060"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
-          &nbsp;&nbsp;
-          <a style="color: #495060"><Icon type="ios-trash-outline" size="20"></Icon></a>
+          <Tooltip content="删除" placement="top">
+            <a style="color: #495060"><Icon type="ios-trash-outline" size="20"></Icon></a>
+          </Tooltip>
         </td>
       </tr>
       <tr>
@@ -40,9 +35,9 @@
         </td>
       </tr>
       </tbody>
-    </table>
+    </table>-->
     <Modal v-model="itemModal" title="编辑已完成项目" @on-ok="ok"  @on-cancel="cancel">
-      模块名称：<Input v-model="inputValue" placeholder="" style="width: 300px"></Input>
+      模块名称：<Input v-model="inputValue" placeholder="" style="width: 300px"/>
       <br/><br/>
       开始时间：<DatePicker type="date" placeholder="请选择" style="width: 200px"></DatePicker>
       <br/><br/>
@@ -59,19 +54,92 @@
           return {
             itemModal: false,
             inputValue:'',
+            theadColumns: [
+              {
+                title: '编号',
+                key: 'id'
+              },
+              {
+                title: '模块名称',
+                key: 'modularName'
+              },
+              {
+                title: '开始日期',
+                key: 'startDate'
+              },
+              {
+                title: '结束日期',
+                key: 'endDate'
+              },
+              {
+                title: '操作',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: (h, params) => {
+                  return h('div', [
+                    h('Button', {
+                      props: {
+                        type: 'primary',
+                        size: 'small'
+                      },
+                      style: {
+                        marginRight: '5px'
+                      },
+                      on: {
+                        click: () => {
+                          this.show(params.index)
+                        }
+                      }
+                    }, '修改'),
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      },
+                      on: {
+                        click: () => {
+                          this.remove(params.index)
+                        }
+                      }
+                    }, '删除')
+                  ]);
+                }
+              }
+            ],
+            projectItems: [
+              {
+                id:1,
+                modularName: '环境准备',
+                startDate: '2020-06-06',
+                endDate: '2020-06-08',
+              },
+              {
+                id:2,
+                modularName: '开发培训',
+                startDate: '2020-06-06',
+                endDate: '2020-06-08',
+              },
+            ]
           }
         },
         methods:{
-          /*add() {
-            console.log(1)
+          /*编辑及删除按钮方法*/
+          show (index) {
+            this.$Modal.info({
+              title: '修改已完成模块',
+              content: `模块名称：<br>
+                          <Input :value=${this.projectItems[index].modularName} class="modalInput"/>
+                          <br><br>
+                         开始日期：<DatePicker value=${this.projectItems[index].startDate}/>
+                          <br><br>
+                         结束日期：<DatePicker value=${this.projectItems[index].endDate}/>`
+            })
           },
-          operation(operationName){
-            //添加
-            if (operationName == 'add') {
-              add();
-            }
-          },*/
-          /*模态框按钮方法*/
+          remove (index) {
+            this.projectItems.splice(index, 1);
+          },
+          /*添加模态框按钮方法*/
           ok () {
             this.$Message.info('提交成功');
           },
@@ -84,17 +152,18 @@
 
 <style scoped>
   table{
-    border: 1px solid #bbbec4;
+    border: 1px solid #dddee1;
     border-collapse: collapse;
   }
   table th{
-    border: 1px solid #bbbec4;
+    border: 1px solid #dddee1;
     padding: 10px;
     background: #f8f8f9;
   }
   table td{
-    border: 1px solid #bbbec4;
+    border: 1px solid #dddee1;
     padding: 10px;
     text-align: center;
   }
+
 </style>
