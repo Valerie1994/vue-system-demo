@@ -67,8 +67,8 @@
               {
                 id:2,
                 modularName: '开发培训',
-                startDate: '2020-06-06',
-                endDate: '2020-06-08',
+                startDate: '2020-06-07',
+                endDate: '2020-06-09',
               },
             ]
           }
@@ -77,7 +77,9 @@
           /*修改按钮方法*/
           showItemModal(projectItem){
             //itemModal = true;
-            console.log(projectItem.startDate);
+            /// TODO
+            //这个地方需要弹出编辑框，并且做回显（需要id）
+            console.log(projectItem.modularName);
           },
           remove (index) {
             this.projectItems.splice(index, 1);
