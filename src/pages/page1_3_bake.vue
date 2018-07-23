@@ -11,6 +11,20 @@
         </tr>
       </thead>
       <tbody>
+      <!--<tr>
+        <td>环境准备</td>
+        <td>2020-06-06</td>
+        <td>2020-06-08</td>
+        <td>
+          <Tooltip content="修改" placement="top">
+            <a style="color: #495060" @click="itemModal = true"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
+          </Tooltip>
+          &nbsp;&nbsp;
+          <Tooltip content="删除" placement="top">
+            <a style="color: #495060"><Icon type="ios-trash-outline" size="20"></Icon></a>
+          </Tooltip>
+        </td>
+      </tr>-->
 
       <tr v-for="projectItem in projectItems">
         <td>{{ projectItem.id }}</td>
@@ -18,7 +32,7 @@
         <td>{{ projectItem.endDate }}</td>
         <td>
           <Tooltip content="修改" placement="top">
-            <a style="color: #495060" @click="showItemModal(projectItem.id)"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
+            <a style="color: #495060" @click="showItemModal()"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
           </Tooltip>
           &nbsp;&nbsp;
           <Tooltip content="删除" placement="top">
@@ -55,6 +69,61 @@
           return {
             itemModal: false,
             inputValue:'',
+            /*theadColumns: [
+              {
+                title: '编号',
+                key: 'id'
+              },
+              {
+                title: '模块名称',
+                key: 'modularName'
+              },
+              {
+                title: '开始日期',
+                key: 'startDate'
+              },
+              {
+                title: '结束日期',
+                key: 'endDate'
+              },
+              {
+                title: '操作',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: (h, params) => {
+                  return h('div', [
+                    h('Button', {
+                      props: {
+                        type: 'primary',
+                        size: 'small'
+                      },
+                      style: {
+                        marginRight: '5px'
+                      },
+                      on: {
+                        click: () => {
+                          //显示模态框
+                          //this.show(params.index)
+                          this.show(params.index);
+                        }
+                      }
+                    }, '修改'),
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      },
+                      on: {
+                        click: () => {
+                          this.remove(params.index)
+                        }
+                      }
+                    }, '删除')
+                  ]);
+                }
+              }
+            ],*/
             projectItems: [
               {
                 id:1,
@@ -73,6 +142,9 @@
         },
         methods:{
           /*修改按钮方法*/
+          show (index) {
+            console.log(index)
+          },
           showItemModal(id){
             //itemModal = true;
             console.log(id);
