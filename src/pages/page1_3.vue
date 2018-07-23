@@ -1,51 +1,15 @@
 <template>
   <div>
-    <!--<Table :columns="theadColumns" :data="projectItems"></Table>-->
-    <table border="1" width="100%" cellspacing="0">
-      <thead>
-        <tr>
-          <th>编号</th>
-          <th>项目模块</th>
-          <th>开始时间</th>
-          <th>完成时间</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-
-      <tr v-for="projectItem in projectItems">
-        <td>{{ projectItem.id }}</td>
-        <td>{{ projectItem.modularName }}</td>
-        <td>{{ projectItem.startDate }}</td>
-        <td>{{ projectItem.endDate }}</td>
-        <td>
-          <Tooltip content="修改" placement="top">
-            <a style="color: #495060" @click="showItemModal(projectItem)"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
-          </Tooltip>
-          &nbsp;&nbsp;
-          <Tooltip content="删除" placement="top">
-            <a style="color: #495060"><Icon type="ios-trash-outline" size="20"></Icon></a>
-          </Tooltip>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="5">
-          <a class="addProjectItem" @click="itemModal = true">
-            <Icon type="ios-plus-outline" size="16"></Icon>
-            &nbsp;
-            添加已完成模块
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <Table :columns="theadColumns" :data="projectItems"></Table>
     <Modal v-model="itemModal" title="编辑已完成项目" @on-ok="ok"  @on-cancel="cancel" width="300">
-      模块名称：<Input placeholder="" style="width: 200px"/>
-      <br/><br/>
-      开始时间：<DatePicker type="date" placeholder="请选择" style="width: 200px"></DatePicker>
-      <br/><br/>
-      结束时间：<DatePicker type="date" placeholder="请选择" style="width: 200px"></DatePicker>
-      <br/><br/>
+      <form>
+          模块名称：<Input v-model="itemInfo.modularName" placeholder="" style="width: 200px"/>
+          <br/><br/>
+          开始时间：<DatePicker v-model="itemInfo.startDate" type="date" format="yyyy-MM-dd" placeholder="请选择" style="width: 200px"></DatePicker>
+          <br/><br/>
+          结束时间：<DatePicker v-model="itemInfo.endDate" type="date" placeholder="请选择" style="width: 200px"></DatePicker>
+          <br/><br/>
+      </form>
     </Modal>
   </div>
 </template>
@@ -55,8 +19,65 @@
         name: "page1_3",
         data () {
           return {
-            itemModal: false,
-            inputValue:'',
+            itemModal: false,//模态框不可见
+            itemInfo:{},//每一行的数据
+            theadColumns: [
+              {
+                title: '编号',
+                key: 'id'
+              },
+              {
+                title: '模块名称',
+                key: 'modularName'
+              },
+              {
+                title: '开始日期',
+                key: 'startDate'
+              },
+              {
+                title: '结束日期',
+                key: 'endDate'
+              },
+              {
+                title: '操作',
+                key: 'action',
+                width: 150,
+                align: 'center',
+                render: (h, params) => {
+                  return h('div', [
+                    h('Button', {
+                      props: {
+                        type: 'primary',
+                        size: 'small'
+                      },
+                      style: {
+                        marginRight: '5px'
+                      },
+                      on: {
+                        click: () => {
+                          //显示模态框
+                          //this.show(params.index)
+                          this.itemModal = true;
+                          this.itemInfo = params.row;
+                          console.log(params.row);
+                        }
+                      }
+                    }, '修改'),
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      },
+                      on: {
+                        click: () => {
+                          this.remove(params.index)
+                        }
+                      }
+                    }, '删除')
+                  ]);
+                }
+              }
+            ],
             projectItems: [
               {
                 id:1,
@@ -74,13 +95,6 @@
           }
         },
         methods:{
-          /*修改按钮方法*/
-          showItemModal(projectItem){
-            //itemModal = true;
-            /// TODO
-            //这个地方需要弹出编辑框，并且做回显（需要id）
-            console.log(projectItem.modularName);
-          },
           remove (index) {
             this.projectItems.splice(index, 1);
           },
