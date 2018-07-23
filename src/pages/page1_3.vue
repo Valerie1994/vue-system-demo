@@ -29,7 +29,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4">
+        <td colspan="5">
           <a class="addProjectItem" @click="itemModal = true">
             <Icon type="ios-plus-outline" size="16"></Icon>
             &nbsp;
