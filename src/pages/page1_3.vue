@@ -4,6 +4,7 @@
     <table border="1" width="100%" cellspacing="0">
       <thead>
         <tr>
+          <th>编号</th>
           <th>项目模块</th>
           <th>开始时间</th>
           <th>完成时间</th>
@@ -14,11 +15,12 @@
 
       <tr v-for="projectItem in projectItems">
         <td>{{ projectItem.id }}</td>
+        <td>{{ projectItem.modularName }}</td>
         <td>{{ projectItem.startDate }}</td>
         <td>{{ projectItem.endDate }}</td>
         <td>
           <Tooltip content="修改" placement="top">
-            <a style="color: #495060" @click="showItemModal(projectItem.id)"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
+            <a style="color: #495060" @click="showItemModal(projectItem)"><Icon type="ios-color-wand-outline" size="20"></Icon></a>
           </Tooltip>
           &nbsp;&nbsp;
           <Tooltip content="删除" placement="top">
@@ -38,7 +40,7 @@
       </tbody>
     </table>
     <Modal v-model="itemModal" title="编辑已完成项目" @on-ok="ok"  @on-cancel="cancel" width="300">
-      模块名称：<Input v-model="inputValue" placeholder="" style="width: 200px"/>
+      模块名称：<Input placeholder="" style="width: 200px"/>
       <br/><br/>
       开始时间：<DatePicker type="date" placeholder="请选择" style="width: 200px"></DatePicker>
       <br/><br/>
@@ -58,13 +60,13 @@
             projectItems: [
               {
                 id:1,
-                //modularName: '环境准备',
+                modularName: '环境准备',
                 startDate: '2020-06-06',
                 endDate: '2020-06-08',
               },
               {
                 id:2,
-                //modularName: '开发培训',
+                modularName: '开发培训',
                 startDate: '2020-06-06',
                 endDate: '2020-06-08',
               },
@@ -73,9 +75,9 @@
         },
         methods:{
           /*修改按钮方法*/
-          showItemModal(id){
+          showItemModal(projectItem){
             //itemModal = true;
-            console.log(id);
+            console.log(projectItem.startDate);
           },
           remove (index) {
             this.projectItems.splice(index, 1);
